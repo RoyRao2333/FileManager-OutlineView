@@ -15,6 +15,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
+        mainWindow = NSWindow(
+            contentRect: NSRect(
+                x: 0,
+                y: 0,
+                width: 500,
+                height: 380
+            ),
+            styleMask: [.titled, .closable, .fullSizeContentView],
+            backing: .buffered,
+            defer: true
+        )
+        mainWindow.contentViewController = ViewController(size: mainWindow.frame.size)
+        mainWindow.center()
+        
+        CustomFileManager.shared.open()
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
