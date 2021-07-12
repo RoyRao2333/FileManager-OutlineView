@@ -75,7 +75,7 @@ extension ViewController {
 
             for case let fileURL as URL in enumerator {
                 let resourceValues = try fileURL.resourceValues(forKeys: Set(resourceKeys))
-                
+                print("\(resourceValues.isDirectory! ? "" : Units(bytes: Int64(resourceValues.fileSize!)).getReadableUnit()) ", resourceValues.name, resourceValues.path)
             }
         } catch {
             print(error)

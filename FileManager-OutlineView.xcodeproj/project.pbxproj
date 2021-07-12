@@ -14,6 +14,7 @@
 		B01E6BC3269C26CF00DA206C /* CustomFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01E6BC2269C26CF00DA206C /* CustomFileManager.swift */; };
 		B01E6BC6269C2D8B00DA206C /* DisplayItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01E6BC5269C2D8B00DA206C /* DisplayItem.swift */; };
 		B0764778269C503C00446D27 /* ProgrammaticTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0764777269C503C00446D27 /* ProgrammaticTableCellView.swift */; };
+		B08A0E72269C65B700BE41EC /* Units.swift in Sources */ = {isa = PBXBuildFile; fileRef = B08A0E71269C65B700BE41EC /* Units.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		B01E6BC2269C26CF00DA206C /* CustomFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFileManager.swift; sourceTree = "<group>"; };
 		B01E6BC5269C2D8B00DA206C /* DisplayItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayItem.swift; sourceTree = "<group>"; };
 		B0764777269C503C00446D27 /* ProgrammaticTableCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammaticTableCellView.swift; sourceTree = "<group>"; };
+		B08A0E71269C65B700BE41EC /* Units.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Units.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				B01E6BB1269C254800DA206C /* AppDelegate.swift */,
 				B01E6BB3269C254800DA206C /* ViewController.swift */,
 				B0764777269C503C00446D27 /* ProgrammaticTableCellView.swift */,
+				B08A0E71269C65B700BE41EC /* Units.swift */,
 				B01E6BB5269C254900DA206C /* Assets.xcassets */,
 				B01E6BB7269C254900DA206C /* Main.storyboard */,
 				B01E6BBA269C254900DA206C /* Info.plist */,
@@ -158,6 +161,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B01E6BC3269C26CF00DA206C /* CustomFileManager.swift in Sources */,
+				B08A0E72269C65B700BE41EC /* Units.swift in Sources */,
 				B01E6BB4269C254800DA206C /* ViewController.swift in Sources */,
 				B01E6BB2269C254800DA206C /* AppDelegate.swift in Sources */,
 				B01E6BC6269C2D8B00DA206C /* DisplayItem.swift in Sources */,
