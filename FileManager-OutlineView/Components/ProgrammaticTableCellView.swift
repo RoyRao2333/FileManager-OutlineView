@@ -13,7 +13,7 @@ class ProgrammaticTableCellView: NSTableCellView {
 
         self.autoresizingMask = .width
         let iv: NSImageView = NSImageView(frame: NSMakeRect(0, 6, 16, 16))
-        let tf: NSTextField = NSTextField(frame: NSMakeRect(21, 6, 200, 14))
+        let tf: NSTextField = StaticTextField(frame: NSMakeRect(21, 6, 200, 14))
         iv.imageScaling = .scaleProportionallyUpOrDown
         iv.imageAlignment = .alignCenter
         tf.isBordered = false
@@ -23,6 +23,19 @@ class ProgrammaticTableCellView: NSTableCellView {
         self.textField = tf
         self.addSubview(iv)
         self.addSubview(tf)
+        
+        // FIXME: Root Folder Icon and Name Disappeared
+        translatesAutoresizingMaskIntoConstraints = false
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            iv.leadingAnchor.constraint(equalTo: leadingAnchor),
+            iv.trailingAnchor.constraint(equalTo: tf.leadingAnchor, constant: -5),
+            iv.centerYAnchor.constraint(equalTo: centerYAnchor),
+            tf.leadingAnchor.constraint(equalTo: iv.trailingAnchor, constant: 5),
+            tf.trailingAnchor.constraint(equalTo: trailingAnchor),
+            tf.centerYAnchor.constraint(equalTo: centerYAnchor),
+        ])
     }
 
     required init?(coder decoder: NSCoder) {

@@ -22,7 +22,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 width: 500,
                 height: 380
             ),
-            styleMask: [.titled, .closable, .fullSizeContentView],
+            styleMask: [.titled, .closable, .resizable, .fullSizeContentView],
             backing: .buffered,
             defer: true
         )

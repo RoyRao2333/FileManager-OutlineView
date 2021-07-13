@@ -9,13 +9,18 @@ import Cocoa
 
 class ViewController: NSViewController {
     private var outlineView: NSOutlineView!
+    private var contextMenu: NSMenu!
     private var items: [DisplayItem] = []
+    private var indices: IndexSet!
     
     
     // MARK: Initializers
     
     init(size frameSize: NSSize) {
         super.init(nibName: nil, bundle: nil)
+        
+        contextMenu = NSMenu(title: "Context")
+        contextMenu.delegate = self
         
         outlineView = NSOutlineView()
         outlineView.allowsColumnResizing = true
@@ -24,16 +29,14 @@ class ViewController: NSViewController {
         outlineView.dataSource = self
         let column1 = NSTableColumn(identifier: NSUserInterfaceItemIdentifier("FileNameColumn"))
         column1.headerCell.title = "FileName"
-        column1.resizingMask = [.autoresizingMask]
         let column2 = NSTableColumn(identifier: NSUserInterfaceItemIdentifier("FileSizeColumn"))
         column2.headerCell.title = "FileSize"
-        column2.resizingMask = [.autoresizingMask]
         let column3 = NSTableColumn(identifier: NSUserInterfaceItemIdentifier("FilePathColumn"))
         column3.headerCell.title = "FilePath"
-        column3.resizingMask = [.autoresizingMask]
         outlineView.addTableColumn(column1)
         outlineView.addTableColumn(column2)
         outlineView.addTableColumn(column3)
+        outlineView.menu = contextMenu
         
         let scrollView = NSScrollView(frame: NSRect(origin: .zero, size: frameSize))
         scrollView.documentView = outlineView
@@ -84,6 +87,25 @@ extension ViewController {
         } catch {
             print(error.localizedDescription)
         }
+    }
+    
+    @objc private func move2Trash() {
+        BookmarkManager.shared.loadBookmarks()
+        
+        var urls: [URL] = []
+        
+        indices.forEach {
+            guard let path = (outlineView.item(atRow: $0) as? DisplayItem)?.path else { return }
+            
+            let url = URL(fileURLWithPath: path)
+            urls.append(url)
+        }
+        
+        // TODO: You do not have permission to move the file to the trash.
+        NSWorkspace.shared.recycle(urls) { _, error in
+            if let error = error { print(error.localizedDescription) }
+        }
+        outlineView.reloadData()
     }
     
     private func loadDir(_ url: URL, parent: DisplayItem) {
@@ -179,9 +201,8 @@ extension ViewController: NSOutlineViewDelegate, NSOutlineViewDataSource {
         
         let cell = ProgrammaticTableCellView()
         cell.identifier = NSUserInterfaceItemIdentifier("OutlineViewCell")
-        cell.textField?.stringValue = text
         cell.imageView?.image = isFirstColumn ? item.icon : nil
-        cell.autoresizingMask = [.width]
+        cell.textField?.stringValue = text
         
         return cell
     }
@@ -217,5 +238,39 @@ extension ViewController: NSOutlineViewDelegate, NSOutlineViewDataSource {
         }
         
         return false
+    }
+}
+
+
+// MARK: Menu Delegate
+extension ViewController: NSMenuDelegate {
+    
+    func menuNeedsUpdate(_ menu: NSMenu) {
+        indices = outlineView.contextMenuRowIndexes
+        menu.removeAllItems()
+        
+        let deleteItem = NSMenuItem(
+            title: "Move To Trash",
+            action: #selector(move2Trash),
+            keyEquivalent: ""
+        )
+        
+        menu.addItem(deleteItem)
+    }
+}
+
+
+extension NSTableView {
+
+    var contextMenuRowIndexes: IndexSet {
+        var indexes = selectedRowIndexes
+
+        // The blue selection box should always reflect the returned row indexes.
+        if clickedRow >= 0
+            && (selectedRowIndexes.isEmpty || !selectedRowIndexes.contains(clickedRow)) {
+            indexes = [clickedRow]
+        }
+
+        return indexes
     }
 }

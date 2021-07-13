@@ -13,6 +13,8 @@
 		B01E6BB9269C254900DA206C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B01E6BB7269C254900DA206C /* Main.storyboard */; };
 		B01E6BC3269C26CF00DA206C /* CustomFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01E6BC2269C26CF00DA206C /* CustomFileManager.swift */; };
 		B01E6BC6269C2D8B00DA206C /* DisplayItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01E6BC5269C2D8B00DA206C /* DisplayItem.swift */; };
+		B067FA79269D653100266881 /* StaticTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B067FA78269D653100266881 /* StaticTextField.swift */; };
+		B067FA7D269D7DA600266881 /* BookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B067FA7C269D7DA600266881 /* BookmarkManager.swift */; };
 		B0764778269C503C00446D27 /* ProgrammaticTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0764777269C503C00446D27 /* ProgrammaticTableCellView.swift */; };
 		B08A0E72269C65B700BE41EC /* Units.swift in Sources */ = {isa = PBXBuildFile; fileRef = B08A0E71269C65B700BE41EC /* Units.swift */; };
 /* End PBXBuildFile section */
@@ -27,6 +29,8 @@
 		B01E6BBB269C254900DA206C /* FileManager_OutlineView.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FileManager_OutlineView.entitlements; sourceTree = "<group>"; };
 		B01E6BC2269C26CF00DA206C /* CustomFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFileManager.swift; sourceTree = "<group>"; };
 		B01E6BC5269C2D8B00DA206C /* DisplayItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayItem.swift; sourceTree = "<group>"; };
+		B067FA78269D653100266881 /* StaticTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticTextField.swift; sourceTree = "<group>"; };
+		B067FA7C269D7DA600266881 /* BookmarkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkManager.swift; sourceTree = "<group>"; };
 		B0764777269C503C00446D27 /* ProgrammaticTableCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammaticTableCellView.swift; sourceTree = "<group>"; };
 		B08A0E71269C65B700BE41EC /* Units.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Units.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -63,10 +67,9 @@
 			children = (
 				B01E6BC1269C259500DA206C /* CustomFileManager */,
 				B01E6BC4269C2D6900DA206C /* Modal */,
+				B067FA76269D5C2F00266881 /* Components */,
 				B01E6BB1269C254800DA206C /* AppDelegate.swift */,
 				B01E6BB3269C254800DA206C /* ViewController.swift */,
-				B0764777269C503C00446D27 /* ProgrammaticTableCellView.swift */,
-				B08A0E71269C65B700BE41EC /* Units.swift */,
 				B01E6BB5269C254900DA206C /* Assets.xcassets */,
 				B01E6BB7269C254900DA206C /* Main.storyboard */,
 				B01E6BBA269C254900DA206C /* Info.plist */,
@@ -91,6 +94,17 @@
 			path = Modal;
 			sourceTree = "<group>";
 		};
+		B067FA76269D5C2F00266881 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				B08A0E71269C65B700BE41EC /* Units.swift */,
+				B0764777269C503C00446D27 /* ProgrammaticTableCellView.swift */,
+				B067FA78269D653100266881 /* StaticTextField.swift */,
+				B067FA7C269D7DA600266881 /* BookmarkManager.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -101,6 +115,7 @@
 				B01E6BAA269C254800DA206C /* Sources */,
 				B01E6BAB269C254800DA206C /* Frameworks */,
 				B01E6BAC269C254800DA206C /* Resources */,
+				B067FA77269D633E00266881 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -155,11 +170,33 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		B067FA77269D633E00266881 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTAGS=\"TODO:|FIXME:\"\nERRORTAG=\"ERROR:\"\nfind \"${SRCROOT}\" \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$|($ERRORTAG).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\" | perl -p -e \"s/($ERRORTAG)/ error: \\$1/\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		B01E6BAA269C254800DA206C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B067FA79269D653100266881 /* StaticTextField.swift in Sources */,
+				B067FA7D269D7DA600266881 /* BookmarkManager.swift in Sources */,
 				B01E6BC3269C26CF00DA206C /* CustomFileManager.swift in Sources */,
 				B08A0E72269C65B700BE41EC /* Units.swift in Sources */,
 				B01E6BB4269C254800DA206C /* ViewController.swift in Sources */,

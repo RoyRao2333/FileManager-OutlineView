@@ -36,6 +36,7 @@ extension CustomFileManager {
             if response == .OK {
                 if let url = openPanel.url {
                     chosenURL = url
+                    BookmarkManager.shared.saveBookmark(for: url)
                     delegate?.mainWindow.makeKeyAndOrderFront(nil)
                 }
             }
@@ -46,4 +47,5 @@ extension CustomFileManager {
 
 extension Notification.Name {
     static let refresh = Notification.Name("RefreshName")
+    static let removeRow = NSNotification.Name("RemoveRow")
 }
