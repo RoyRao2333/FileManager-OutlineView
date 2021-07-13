@@ -23,7 +23,7 @@ public struct Units {
     return megabytes / 1_024
   }
   
-  public init(bytes: Int64) {
+  public init(_ bytes: Int64) {
     self.bytes = bytes
   }
   
@@ -33,11 +33,11 @@ public struct Units {
     case 0..<1_024:
       return "\(bytes) bytes"
     case 1_024..<(1_024 * 1_024):
-      return "\(String(format: "%.2f", kilobytes)) kb"
+      return "\(String(format: "%.2f", kilobytes)) KB"
     case 1_024..<(1_024 * 1_024 * 1_024):
-      return "\(String(format: "%.2f", megabytes)) mb"
+      return "\(String(format: "%.2f", megabytes)) MB"
     case (1_024 * 1_024 * 1_024)...Int64.max:
-      return "\(String(format: "%.2f", gigabytes)) gb"
+      return "\(String(format: "%.2f", gigabytes)) GB"
     default:
       return "\(bytes) bytes"
     }

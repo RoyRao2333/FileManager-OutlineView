@@ -17,19 +17,20 @@ class ViewController: NSViewController {
     init(size frameSize: NSSize) {
         super.init(nibName: nil, bundle: nil)
         
-        reload()
-        
         outlineView = NSOutlineView()
         outlineView.allowsColumnResizing = true
-        outlineView.columnAutoresizingStyle = .sequentialColumnAutoresizingStyle
+        outlineView.columnAutoresizingStyle = .uniformColumnAutoresizingStyle
         outlineView.delegate = self
         outlineView.dataSource = self
         let column1 = NSTableColumn(identifier: NSUserInterfaceItemIdentifier("FileNameColumn"))
         column1.headerCell.title = "FileName"
+        column1.resizingMask = [.autoresizingMask]
         let column2 = NSTableColumn(identifier: NSUserInterfaceItemIdentifier("FileSizeColumn"))
         column2.headerCell.title = "FileSize"
+        column2.resizingMask = [.autoresizingMask]
         let column3 = NSTableColumn(identifier: NSUserInterfaceItemIdentifier("FilePathColumn"))
         column3.headerCell.title = "FilePath"
+        column3.resizingMask = [.autoresizingMask]
         outlineView.addTableColumn(column1)
         outlineView.addTableColumn(column2)
         outlineView.addTableColumn(column3)
@@ -59,23 +60,77 @@ class ViewController: NSViewController {
 // MARK: Private Mothods
 extension ViewController {
     
-    @objc private func reload() {
+    @objc func reload() {
         guard let url = CustomFileManager.shared.chosenURL else { return }
-
+        
         do {
-            let resourceKeys : [URLResourceKey] = [.fileSizeKey, .nameKey, .isDirectoryKey]
+            let resource = try url.resourceValues(forKeys: [.nameKey, .pathKey])
+            
+            if
+                let fileName = resource.name,
+                let filePath = resource.path
+            {
+                let item = DisplayItem(
+                    name: fileName,
+                    size: "",
+                    path: filePath,
+                    icon: NSImage(systemSymbolName: "folder", accessibilityDescription: nil)!
+                )
+                items.append(item)
+                
+                loadDir(url, parent: item)
+                outlineView.reloadData()
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    private func loadDir(_ url: URL, parent: DisplayItem) {
+        
+        do {
+            let resourceKeys : [URLResourceKey] = [.fileSizeKey, .nameKey, .pathKey, .isDirectoryKey]
             let enumerator = FileManager.default.enumerator(
                 at: url,
                 includingPropertiesForKeys: resourceKeys,
-                options: [.skipsHiddenFiles],
+                options: [.skipsHiddenFiles, .skipsSubdirectoryDescendants],
                 errorHandler: { (url, error) -> Bool in
                     print("directoryEnumerator error at \(url): ", error)
                     return true
             })!
 
             for case let fileURL as URL in enumerator {
-                let resourceValues = try fileURL.resourceValues(forKeys: Set(resourceKeys))
-                print("\(resourceValues.isDirectory! ? "" : Units(bytes: Int64(resourceValues.fileSize!)).getReadableUnit()) ", resourceValues.name, resourceValues.path)
+                let resource = try fileURL.resourceValues(forKeys: Set(resourceKeys))
+                
+                if
+                    let isDirectory = resource.isDirectory,
+                    let fileName = resource.name,
+                    let filePath = resource.path
+                {
+                    let fileSize = Int64(resource.fileSize ?? 0)
+                    let item = DisplayItem(
+                        name: fileName,
+                        size: "",
+                        path: filePath,
+                        icon: NSImage()
+                    )
+                    
+                    if isDirectory {
+                        // Directory
+                        item.size = ""
+                        item.icon = NSImage(systemSymbolName: "folder", accessibilityDescription: nil)!
+                        
+                        parent.children.append(item)
+                        
+                        loadDir(fileURL, parent: item)
+                    } else {
+                        // File
+                        item.size = Units(fileSize).getReadableUnit()
+                        item.icon = NSImage(systemSymbolName: "doc", accessibilityDescription: nil)!
+                        
+                        parent.children.append(item)
+                    }
+                }
             }
         } catch {
             print(error)
@@ -94,8 +149,9 @@ extension ViewController {
 }
 
 
-// MARK: NSOutlineView Delegate & DataSource
 extension ViewController: NSOutlineViewDelegate, NSOutlineViewDataSource {
+    
+    // MARK: Delegate -
     
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
         guard
@@ -125,9 +181,13 @@ extension ViewController: NSOutlineViewDelegate, NSOutlineViewDataSource {
         cell.identifier = NSUserInterfaceItemIdentifier("OutlineViewCell")
         cell.textField?.stringValue = text
         cell.imageView?.image = isFirstColumn ? item.icon : nil
+        cell.autoresizingMask = [.width]
         
         return cell
     }
+    
+
+    // MARK: DataSource -
     
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
         if item == nil {

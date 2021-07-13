@@ -7,7 +7,16 @@
 
 import Cocoa
 
-class DisplayItem {
+class DisplayItem: Hashable {
+    
+    static func == (lhs: DisplayItem, rhs: DisplayItem) -> Bool {
+        return lhs.path == rhs.path
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(ObjectIdentifier(self).hashValue)
+    }
+    
     var name: String
     var size: String
     var path: String
