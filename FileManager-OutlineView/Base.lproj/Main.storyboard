@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -678,6 +679,49 @@
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="k76-Sp-7jR">
+            <objects>
+                <viewController id="a2z-Ht-Fxi" sceneMemberID="viewController">
+                    <view key="view" id="c9e-mR-xiA">
+                        <rect key="frame" x="0.0" y="0.0" width="550" height="314"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5Gs-9F-gUd">
+                                <rect key="frame" x="238" y="140" width="75" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="61" id="Nvq-BY-8pX"/>
+                                    <constraint firstAttribute="height" constant="20" id="b6X-jh-VBh"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wws-xx-GCH">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4m5-Q1-F1e">
+                                <rect key="frame" x="238" y="70" width="75" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="61" id="JbL-76-SfI"/>
+                                    <constraint firstAttribute="height" constant="20" id="geu-Ae-YYv"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="r35-em-gqb">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="4m5-Q1-F1e" firstAttribute="centerX" secondItem="c9e-mR-xiA" secondAttribute="centerX" id="3Cp-3X-Nku"/>
+                            <constraint firstItem="4m5-Q1-F1e" firstAttribute="top" secondItem="5Gs-9F-gUd" secondAttribute="bottom" constant="50" id="Kuo-rf-RqV"/>
+                            <constraint firstItem="5Gs-9F-gUd" firstAttribute="centerY" secondItem="c9e-mR-xiA" secondAttribute="centerY" id="MBu-W8-h0L"/>
+                            <constraint firstItem="5Gs-9F-gUd" firstAttribute="centerX" secondItem="c9e-mR-xiA" secondAttribute="centerX" id="asq-ls-cN3"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="bus-Xr-v1J" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-133" y="233"/>
         </scene>
     </scenes>
 </document>

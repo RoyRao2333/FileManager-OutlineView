@@ -101,11 +101,12 @@ extension ViewController {
             urls.append(url)
         }
         
-        // TODO: You do not have permission to move the file to the trash.
         NSWorkspace.shared.recycle(urls) { _, error in
             if let error = error { print(error.localizedDescription) }
         }
-        outlineView.reloadData()
+        
+        items.removeAll()
+        reload()
     }
     
     private func loadDir(_ url: URL, parent: DisplayItem) {
@@ -222,6 +223,7 @@ extension ViewController: NSOutlineViewDelegate, NSOutlineViewDataSource {
     }
     
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
+        // Invoke When Expand
         if item == nil {
             // Root
             return items.count
