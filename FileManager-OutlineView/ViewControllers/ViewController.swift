@@ -8,15 +8,11 @@
 import Cocoa
 
 class ViewController: NSViewController {
+    private var fileObserver: FileObserver!
     private var outlineView: NSOutlineView!
     private var contextMenu: NSMenu!
     private var items: [DisplayItem] = []
     private var indices: IndexSet!
-    
-    lazy var loadingVC: LoadingViewController? = {
-        NSStoryboard.main?.instantiateController(withIdentifier: "LoadingViewController")
-            as? LoadingViewController
-    }()
     
     
     // MARK: Initializers
@@ -30,6 +26,8 @@ class ViewController: NSViewController {
         outlineView = NSOutlineView()
         outlineView.allowsColumnResizing = true
         outlineView.columnAutoresizingStyle = .uniformColumnAutoresizingStyle
+        outlineView.autosaveName = .init("OutlineViewAutosaveName")
+        outlineView.autosaveExpandedItems = true
         outlineView.delegate = self
         outlineView.dataSource = self
         let column1 = NSTableColumn(identifier: NSUserInterfaceItemIdentifier("FileNameColumn"))
@@ -57,6 +55,14 @@ class ViewController: NSViewController {
             name: .refresh,
             object: nil
         )
+        
+        // Add File Change Observation
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(reload),
+            name: .fileDidChange,
+            object: nil
+        )
     }
     
     required init?(coder: NSCoder) {
@@ -71,35 +77,28 @@ extension ViewController {
     @objc func reload() {
         guard let url = CustomFileManager.shared.chosenURL else { return }
         
+        fileObserver = FileObserver(url, queue: .main)
+        
+        items.removeAll()
+        
         do {
             let resource = try url.resourceValues(forKeys: [.nameKey, .pathKey])
+            let rootSize = try FileManager.default.allocatedSizeOfDirectory(at: url)
             
-            if
-                let fileName = resource.name,
-                let filePath = resource.path
-            {
+            if let fileName = resource.name {
                 let item = DisplayItem(
                     name: fileName,
-                    size: "",
-                    path: filePath,
-                    icon: NSImage(systemSymbolName: "folder", accessibilityDescription: nil)!
+                    size: Units(rootSize).getReadableUnit(),
+                    url: url,
+                    icon: NSImage(systemSymbolName: "folder", accessibilityDescription: nil)!,
+                    isDirectory: true
                 )
                 items.append(item)
                 
-                loadDir(url, parent: item)
-                outlineView.reloadDataKeepingSelection()
+                reloadDataKeepingSelection()
             }
         } catch {
             print(error.localizedDescription)
-        }
-        
-        if let loading = loadingVC {
-            presentAsSheet(loading)
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            let delegate = NSApp.delegate as? AppDelegate
-            delegate?.mainWindow.makeKeyAndOrderFront(nil)
         }
     }
     
@@ -107,26 +106,30 @@ extension ViewController {
         var urls: [URL] = []
         
         indices.forEach {
-            guard let path = (outlineView.item(atRow: $0) as? DisplayItem)?.path else { return }
+            guard let url = (outlineView.item(atRow: $0) as? DisplayItem)?.url else { return }
             
-            let url = URL(fileURLWithPath: path)
             urls.append(url)
         }
         
         NSWorkspace.shared.recycle(urls) { _, error in
             if let error = error { print(error.localizedDescription) }
         }
-        
-        items.removeAll()
+    
         reload()
     }
     
-    private func loadDir(_ url: URL, parent: DisplayItem) {
+    private func loadDirWith(_ parent: DisplayItem) {
         
         do {
-            let resourceKeys : [URLResourceKey] = [.fileSizeKey, .nameKey, .pathKey, .isDirectoryKey]
+            let resourceKeys : [URLResourceKey] = [
+                .fileSizeKey,
+                .nameKey,
+                .pathKey,
+                .isDirectoryKey
+            ]
+            
             let enumerator = FileManager.default.enumerator(
-                at: url,
+                at: parent.url,
                 includingPropertiesForKeys: resourceKeys,
                 options: [.skipsHiddenFiles, .skipsSubdirectoryDescendants],
                 errorHandler: { (url, error) -> Bool in
@@ -139,25 +142,27 @@ extension ViewController {
                 
                 if
                     let isDirectory = resource.isDirectory,
-                    let fileName = resource.name,
-                    let filePath = resource.path
+                    let fileName = resource.name
                 {
-                    let fileSize = Int64(resource.fileSize ?? 0)
+                    let fileSize = UInt64(resource.fileSize ?? 0)
                     let item = DisplayItem(
                         name: fileName,
-                        size: "",
-                        path: filePath,
-                        icon: NSImage()
+                        url: fileURL
                     )
                     
                     if isDirectory {
                         // Directory
-                        item.size = ""
+                        do {
+                            let folderSize = try FileManager.default.allocatedSizeOfDirectory(at: fileURL)
+                            item.size = Units(folderSize).getReadableUnit()
+                        } catch {
+                            item.size = ""
+                            print(error.localizedDescription)
+                        }
                         item.icon = NSImage(systemSymbolName: "folder", accessibilityDescription: nil)!
+                        item.isDirectory = true
                         
                         parent.children.append(item)
-                        
-                        loadDir(fileURL, parent: item)
                     } else {
                         // File
                         item.size = Units(fileSize).getReadableUnit()
@@ -180,6 +185,12 @@ extension ViewController {
         }
         
         return nil
+    }
+    
+    private func reloadDataKeepingSelection() {
+        let selectedRowIndexes = outlineView.selectedRowIndexes
+        outlineView.reloadData()
+        outlineView.selectRowIndexes(selectedRowIndexes, byExtendingSelection: false)
     }
 }
 
@@ -206,7 +217,7 @@ extension ViewController: NSOutlineViewDelegate, NSOutlineViewDataSource {
             text = item.size
             
         case "FilePathColumn":
-            text = item.path
+            text = item.url.path
             
         default:
             break
@@ -240,6 +251,11 @@ extension ViewController: NSOutlineViewDelegate, NSOutlineViewDataSource {
             // Root
             return items.count
         } else if let item = item as? DisplayItem {
+            if item.children.isEmpty {
+                // Fetch Subitems
+                loadDirWith(item)
+            }
+            
             return item.children.count
         }
         
@@ -248,10 +264,18 @@ extension ViewController: NSOutlineViewDelegate, NSOutlineViewDataSource {
     
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
         if let item = item as? DisplayItem {
-            return !item.children.isEmpty
+            return item.isDirectory
         }
         
         return false
+    }
+    
+    func outlineView(_ outlineView: NSOutlineView, itemForPersistentObject object: Any) -> Any? {
+        guard
+            let managedObjectID = (object as? NSManagedObject)?.objectID
+        else { return nil }
+        
+        return managedObjectID.uriRepresentation().absoluteString
     }
 }
 
@@ -286,11 +310,5 @@ extension NSTableView {
         }
 
         return indexes
-    }
-    
-    func reloadDataKeepingSelection() {
-        let selectedRowIndexes = self.selectedRowIndexes
-        reloadData()
-        selectRowIndexes(selectedRowIndexes, byExtendingSelection: false)
     }
 }

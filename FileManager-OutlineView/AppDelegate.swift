@@ -35,7 +35,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
-
-
 }
 
+
+extension Notification.Name {
+    static let refresh = Notification.Name("RefreshName")
+    static let removeRow = NSNotification.Name("RemoveRow")
+    static let fileDidChange = NSNotification.Name("FileDidChange")
+}

@@ -9,7 +9,7 @@ import Foundation
 
 public struct Units {
   
-  public let bytes: Int64
+  public let bytes: UInt64
   
   public var kilobytes: Double {
     return Double(bytes) / 1_024
@@ -23,7 +23,7 @@ public struct Units {
     return megabytes / 1_024
   }
   
-  public init(_ bytes: Int64) {
+  public init(_ bytes: UInt64) {
     self.bytes = bytes
   }
   
@@ -36,7 +36,7 @@ public struct Units {
       return "\(String(format: "%.2f", kilobytes)) KB"
     case 1_024..<(1_024 * 1_024 * 1_024):
       return "\(String(format: "%.2f", megabytes)) MB"
-    case (1_024 * 1_024 * 1_024)...Int64.max:
+    case (1_024 * 1_024 * 1_024)...UInt64.max:
       return "\(String(format: "%.2f", gigabytes)) GB"
     default:
       return "\(bytes) bytes"

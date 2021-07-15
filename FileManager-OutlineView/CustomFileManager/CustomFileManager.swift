@@ -27,6 +27,8 @@ class CustomFileManager {
 extension CustomFileManager {
     
     func open() {
+        let delegate = NSApp.delegate as? AppDelegate
+        
         let openPanel = NSOpenPanel()
         openPanel.canChooseFiles = false
         openPanel.canChooseDirectories = true
@@ -35,14 +37,9 @@ extension CustomFileManager {
             if response == .OK {
                 if let url = openPanel.url {
                     chosenURL = url
+                    delegate?.mainWindow.makeKeyAndOrderFront(nil)
                 }
             }
         }
     }
-}
-
-
-extension Notification.Name {
-    static let refresh = Notification.Name("RefreshName")
-    static let removeRow = NSNotification.Name("RemoveRow")
 }

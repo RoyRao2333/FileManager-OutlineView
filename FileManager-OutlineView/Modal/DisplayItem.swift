@@ -19,21 +19,24 @@ class DisplayItem: Hashable {
     
     var name: String
     var size: String
-    var path: String
+    var url: URL
     var icon: NSImage
+    var isDirectory: Bool
     var children: [DisplayItem]
     
     init(
         name: String,
-        size: String,
-        path: String,
-        icon: NSImage,
+        size: String = "",
+        url: URL,
+        icon: NSImage = NSImage(),
+        isDirectory: Bool = false,
         children: [DisplayItem] = []
     ) {
         self.name = name
         self.size = size
-        self.path = path
+        self.url = url
         self.icon = icon
+        self.isDirectory = isDirectory
         self.children = children
     }
 }

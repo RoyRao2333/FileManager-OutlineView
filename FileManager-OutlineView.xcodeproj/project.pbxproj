@@ -16,7 +16,8 @@
 		B067FA79269D653100266881 /* StaticTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B067FA78269D653100266881 /* StaticTextField.swift */; };
 		B0764778269C503C00446D27 /* ProgrammaticTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0764777269C503C00446D27 /* ProgrammaticTableCellView.swift */; };
 		B08A0E72269C65B700BE41EC /* Units.swift in Sources */ = {isa = PBXBuildFile; fileRef = B08A0E71269C65B700BE41EC /* Units.swift */; };
-		B09DFB16269FDBA400C93B95 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09DFB15269FDBA400C93B95 /* LoadingViewController.swift */; };
+		B09DFB1826A015E900C93B95 /* FileObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09DFB1726A015E900C93B95 /* FileObserver.swift */; };
+		B09DFB1A26A02C9400C93B95 /* AllocatedSizeOfDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09DFB1926A02C9400C93B95 /* AllocatedSizeOfDirectory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,7 +33,8 @@
 		B067FA78269D653100266881 /* StaticTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticTextField.swift; sourceTree = "<group>"; };
 		B0764777269C503C00446D27 /* ProgrammaticTableCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammaticTableCellView.swift; sourceTree = "<group>"; };
 		B08A0E71269C65B700BE41EC /* Units.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Units.swift; sourceTree = "<group>"; };
-		B09DFB15269FDBA400C93B95 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		B09DFB1726A015E900C93B95 /* FileObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileObserver.swift; sourceTree = "<group>"; };
+		B09DFB1926A02C9400C93B95 /* AllocatedSizeOfDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllocatedSizeOfDirectory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,8 @@
 				B08A0E71269C65B700BE41EC /* Units.swift */,
 				B0764777269C503C00446D27 /* ProgrammaticTableCellView.swift */,
 				B067FA78269D653100266881 /* StaticTextField.swift */,
+				B09DFB1726A015E900C93B95 /* FileObserver.swift */,
+				B09DFB1926A02C9400C93B95 /* AllocatedSizeOfDirectory.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -108,7 +112,6 @@
 			isa = PBXGroup;
 			children = (
 				B01E6BB3269C254800DA206C /* ViewController.swift */,
-				B09DFB15269FDBA400C93B95 /* LoadingViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -207,9 +210,10 @@
 				B01E6BC3269C26CF00DA206C /* CustomFileManager.swift in Sources */,
 				B08A0E72269C65B700BE41EC /* Units.swift in Sources */,
 				B01E6BB4269C254800DA206C /* ViewController.swift in Sources */,
-				B09DFB16269FDBA400C93B95 /* LoadingViewController.swift in Sources */,
 				B01E6BB2269C254800DA206C /* AppDelegate.swift in Sources */,
 				B01E6BC6269C2D8B00DA206C /* DisplayItem.swift in Sources */,
+				B09DFB1A26A02C9400C93B95 /* AllocatedSizeOfDirectory.swift in Sources */,
+				B09DFB1826A015E900C93B95 /* FileObserver.swift in Sources */,
 				B0764778269C503C00446D27 /* ProgrammaticTableCellView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
