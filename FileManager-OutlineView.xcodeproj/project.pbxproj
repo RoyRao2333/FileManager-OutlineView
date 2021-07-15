@@ -14,9 +14,9 @@
 		B01E6BC3269C26CF00DA206C /* CustomFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01E6BC2269C26CF00DA206C /* CustomFileManager.swift */; };
 		B01E6BC6269C2D8B00DA206C /* DisplayItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01E6BC5269C2D8B00DA206C /* DisplayItem.swift */; };
 		B067FA79269D653100266881 /* StaticTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B067FA78269D653100266881 /* StaticTextField.swift */; };
-		B067FA7D269D7DA600266881 /* BookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B067FA7C269D7DA600266881 /* BookmarkManager.swift */; };
 		B0764778269C503C00446D27 /* ProgrammaticTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0764777269C503C00446D27 /* ProgrammaticTableCellView.swift */; };
 		B08A0E72269C65B700BE41EC /* Units.swift in Sources */ = {isa = PBXBuildFile; fileRef = B08A0E71269C65B700BE41EC /* Units.swift */; };
+		B09DFB16269FDBA400C93B95 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09DFB15269FDBA400C93B95 /* LoadingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,9 +30,9 @@
 		B01E6BC2269C26CF00DA206C /* CustomFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFileManager.swift; sourceTree = "<group>"; };
 		B01E6BC5269C2D8B00DA206C /* DisplayItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayItem.swift; sourceTree = "<group>"; };
 		B067FA78269D653100266881 /* StaticTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticTextField.swift; sourceTree = "<group>"; };
-		B067FA7C269D7DA600266881 /* BookmarkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkManager.swift; sourceTree = "<group>"; };
 		B0764777269C503C00446D27 /* ProgrammaticTableCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammaticTableCellView.swift; sourceTree = "<group>"; };
 		B08A0E71269C65B700BE41EC /* Units.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Units.swift; sourceTree = "<group>"; };
+		B09DFB15269FDBA400C93B95 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,11 +65,11 @@
 		B01E6BB0269C254800DA206C /* FileManager-OutlineView */ = {
 			isa = PBXGroup;
 			children = (
+				B09DFB14269FDB8A00C93B95 /* ViewControllers */,
 				B01E6BC1269C259500DA206C /* CustomFileManager */,
 				B01E6BC4269C2D6900DA206C /* Modal */,
 				B067FA76269D5C2F00266881 /* Components */,
 				B01E6BB1269C254800DA206C /* AppDelegate.swift */,
-				B01E6BB3269C254800DA206C /* ViewController.swift */,
 				B01E6BB5269C254900DA206C /* Assets.xcassets */,
 				B01E6BB7269C254900DA206C /* Main.storyboard */,
 				B01E6BBA269C254900DA206C /* Info.plist */,
@@ -100,9 +100,17 @@
 				B08A0E71269C65B700BE41EC /* Units.swift */,
 				B0764777269C503C00446D27 /* ProgrammaticTableCellView.swift */,
 				B067FA78269D653100266881 /* StaticTextField.swift */,
-				B067FA7C269D7DA600266881 /* BookmarkManager.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		B09DFB14269FDB8A00C93B95 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				B01E6BB3269C254800DA206C /* ViewController.swift */,
+				B09DFB15269FDBA400C93B95 /* LoadingViewController.swift */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,10 +204,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				B067FA79269D653100266881 /* StaticTextField.swift in Sources */,
-				B067FA7D269D7DA600266881 /* BookmarkManager.swift in Sources */,
 				B01E6BC3269C26CF00DA206C /* CustomFileManager.swift in Sources */,
 				B08A0E72269C65B700BE41EC /* Units.swift in Sources */,
 				B01E6BB4269C254800DA206C /* ViewController.swift in Sources */,
+				B09DFB16269FDBA400C93B95 /* LoadingViewController.swift in Sources */,
 				B01E6BB2269C254800DA206C /* AppDelegate.swift in Sources */,
 				B01E6BC6269C2D8B00DA206C /* DisplayItem.swift in Sources */,
 				B0764778269C503C00446D27 /* ProgrammaticTableCellView.swift in Sources */,

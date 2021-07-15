@@ -10,6 +10,7 @@ import Cocoa
 class CustomFileManager {
     static let shared = CustomFileManager()
     private let manager = FileManager.default
+    
     var chosenURL: URL? {
         didSet {
             NotificationCenter.default.post(name: .refresh, object: nil)
@@ -26,8 +27,6 @@ class CustomFileManager {
 extension CustomFileManager {
     
     func open() {
-        let delegate = NSApp.delegate as? AppDelegate
-        
         let openPanel = NSOpenPanel()
         openPanel.canChooseFiles = false
         openPanel.canChooseDirectories = true
@@ -36,8 +35,6 @@ extension CustomFileManager {
             if response == .OK {
                 if let url = openPanel.url {
                     chosenURL = url
-                    BookmarkManager.shared.saveBookmark(for: url)
-                    delegate?.mainWindow.makeKeyAndOrderFront(nil)
                 }
             }
         }

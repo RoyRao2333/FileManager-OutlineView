@@ -13,6 +13,11 @@ class ViewController: NSViewController {
     private var items: [DisplayItem] = []
     private var indices: IndexSet!
     
+    lazy var loadingVC: LoadingViewController? = {
+        NSStoryboard.main?.instantiateController(withIdentifier: "LoadingViewController")
+            as? LoadingViewController
+    }()
+    
     
     // MARK: Initializers
     
@@ -82,16 +87,23 @@ extension ViewController {
                 items.append(item)
                 
                 loadDir(url, parent: item)
-                outlineView.reloadData()
+                outlineView.reloadDataKeepingSelection()
             }
         } catch {
             print(error.localizedDescription)
         }
+        
+        if let loading = loadingVC {
+            presentAsSheet(loading)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            let delegate = NSApp.delegate as? AppDelegate
+            delegate?.mainWindow.makeKeyAndOrderFront(nil)
+        }
     }
     
     @objc private func move2Trash() {
-        BookmarkManager.shared.loadBookmarks()
-        
         var urls: [URL] = []
         
         indices.forEach {
@@ -274,5 +286,11 @@ extension NSTableView {
         }
 
         return indexes
+    }
+    
+    func reloadDataKeepingSelection() {
+        let selectedRowIndexes = self.selectedRowIndexes
+        reloadData()
+        selectRowIndexes(selectedRowIndexes, byExtendingSelection: false)
     }
 }

@@ -24,8 +24,6 @@ class ProgrammaticTableCellView: NSTableCellView {
         self.addSubview(iv)
         self.addSubview(tf)
         
-        // FIXME: Root Folder Icon and Name Disappeared
-        translatesAutoresizingMaskIntoConstraints = false
         iv.translatesAutoresizingMaskIntoConstraints = false
         tf.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

@@ -10,7 +10,7 @@ import Cocoa
 class DisplayItem: Hashable {
     
     static func == (lhs: DisplayItem, rhs: DisplayItem) -> Bool {
-        return lhs.path == rhs.path
+        return lhs === rhs
     }
     
     func hash(into hasher: inout Hasher) {
